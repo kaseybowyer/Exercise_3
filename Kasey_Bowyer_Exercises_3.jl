@@ -1,4 +1,4 @@
-cd("/Users/kaseybowyer/Documents/Courses/Fall2019/Neu314/Exercises/Exercise3")
+cd("/Users/kaseybowyer/Documents/Courses/Fall2019/Neu314/Exercises/Exercise_3")
 
 using Plots
 using PyPlot
@@ -49,5 +49,17 @@ function extract_RBG(filename)
         end
     end
 
+    println("Reset with git reset --mixed")
+
     return red, green, blue
 end
+
+# Part 1Ae
+#making GBR
+redvals, greenvals, bluevals = extract_RBG(image)
+redvals = trues(360,640)
+greenvals = falses(360,640)
+bluevals = zeros(360, 640)
+image2[:,:,1] = greenvals
+image2[:,:,2] = bluevals
+image2[:,:,3] = redvals
