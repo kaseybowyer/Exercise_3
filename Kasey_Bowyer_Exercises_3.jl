@@ -55,11 +55,63 @@ function extract_RBG(filename)
 end
 
 # Part 1Ae
-#making GBR
-redvals, greenvals, bluevals = extract_RBG(image)
-redvals = trues(360,640)
-greenvals = falses(360,640)
-bluevals = zeros(360, 640)
+# switching the red, green and blue values to green, blue and red
+image2 = zeros(360, 640, 3)
+filename = "el-capitan.png"
+redvals, greenvals, bluevals = extract_RBG(filename)
 image2[:,:,1] = greenvals
 image2[:,:,2] = bluevals
 image2[:,:,3] = redvals
+
+figure(figsize=[8,5])
+subplot(1,2,1)
+imshow(image)
+title("El-Capitan Regular Image")
+axis("off")
+subplot(1,2,2)
+imshow(image2)
+title("El-Capitan with Shifted RBG values")
+axis("off")
+
+# Part 1B
+function circ_rotation(filename, p)
+    image = imread(filename)
+    image_copy = image[:,:,1]
+
+    num_rows = size(image_copy,1)
+    # making sure shift isn't larger than number of rows and shifts are redundant
+    p = p%num_rows
+
+    for i = 1:num_rows
+        if i - p < 1
+            image[num_rows+i-p,:,1] =  image_copy[i,:,1]
+        else
+            image[i-p,:,1] = image_copy[i,:,1]
+        end
+    end
+
+    return image
+
+end
+
+function circ_matrix(matrix, p)
+    matrix_copy = matrix[:,:]
+
+    num_rows = size(matrix_copy,1)
+    # making sure shift isn't larger than number of rows and shifts are redundant
+    p = p%num_rows
+
+    for i = 1:num_rows
+        if i - p < 1
+            matrix[num_rows+i-p,:] =  matrix_copy[i,:]
+        else
+            matrix[i-p,:] = matrix_copy[i,:]
+        end
+    end
+
+    return matrix
+
+end
+
+circ_image =  circ_rotation(filename,180)
+imshow(circ_image)
